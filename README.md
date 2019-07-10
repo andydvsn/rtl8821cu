@@ -1,55 +1,99 @@
-rtl8821cu for linux
-===================
+RTL8821CU WLAN Driver
+======================
 
-rtl8821cu/rtl8822cu linux kernel for wireless abgn device
+This is a fork of the RTL8821CU driver tweaked to compile on 3.16 branch of the Linux kernel. Its intention is to be used with Openpeak OpenFrame devices, but no significant changes have been made to the driver.
 
-Note:
-This is an USB2 only adapter,  
-which **may** have bluetooth support  
-For specialities on this device read at the end  
+The RTL8821CU IC provides both 2.5 / 5 GHz WLAN and Bluetooth 4.2 in a single package. __This driver is WLAN only and doesn't provide BT compatibility.__
 
-<u>If one USB-ID is missing, please mail me.</u>  
+However, the code in my [rtl8821cu_bt](https://github.com/andydvsn/rtl8821cu_bt) repo should get Bluetooth up and running with 3.16 kernels as well.
 
-build/load/function tested with v4.18.7  
+Instructions below apply to [OpenFrame Ubuntu Images](https://dl.birdslikewires.net/openframe/ubuntu/) but should be generic enough to apply to other flavours.
 
-Building and install driver
----------------------------
+Hardware
+---------
 
-for building type  
-`make`  
+This has been tested against the following adapters:
 
-for load the driver  
-`sudo modprobe cfg80211`  
-`sudo insmod rtl8821cu.ko`  
+* __EZCast EZC-5200BS__ (ID 0bda:c820 Realtek Semiconductor Corp.) - [Amazon UK](https://www.amazon.co.uk/gp/product/B07H87NKKM/ref=as_li_ss_tl?ie=UTF8&psc=1&linkCode=ll1&tag=birdslikewire-21&linkId=d68b32027353c457caba6f0822b06848&language=en_GB)
+
+Yes, that's a shill link to Amazon if you'd like to buy one.
 
 
-You need to install the needed fw with  
-`sudo make installfw`  
+Build
+------
 
-If you need to crosscompile use  
-`ARCH= CROSS_COMPILE= KSRC=`  
-while calling `make` i.e.  
+###Environment###
 
-`make ARCH="arm" CROSS_COMPILE=armv5tel-softfloat-linux-gnueabi- KSRC=/home/linux-master modules`  
+Ensure you have kernel headers and build-essential installed. These can be added to the OpenFrame automatically with:
 
-<u>CDROM emulation</u>  
-The device exists in various flavours  
-including cdrom emulation for windows  
-knowing USB id's doing this trick (after cold boot)  
-  *  0x0bda 0x1a2b
+	of-install-build
 
-you can do a scsi cdrom ejcet with  
-`usb_modeswitch -v 0bda -p 1a2b -K`  
-or  
-`eject $DEVICE`
+Or generically:
 
-<u>Bluetooth support</u>  
-some device may have bluetooth build in.  
-i.e. Comfast or EDUP devices may do this  
-you need some additional driver to use this.  
+	sudo apt install linux-headers-`uname -r` build-essential git
 
-Please use prefix **rtl8821cu** if you want to mail me  
-But please please don't, I have enough to do.  
-TIA 
+###Fetch, Compile, Install###
 
-Hans Ulli Kroll <ulli.kroll@googlemail.com>
+	git clone https://github.com/andydvsn/rtl8821cu_wlan.git
+	cd rtl8821cu_wlan
+	make -j`nproc`
+	sudo make install
+	
+Run
+----
+
+Fire up the module with:
+
+	modprobe rtl8821cu
+
+Check its presence with:
+
+	ip a
+	
+Configure
+----------
+
+On the OpenFrame images, edit `/boot/network.yaml`  to your heart's content and then:
+
+	of-netplan
+	
+To apply.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
