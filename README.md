@@ -22,7 +22,7 @@ Yes, that's a shill link to Amazon if you'd like to buy one.
 Build
 ------
 
-###Environment###
+### Environment ###
 
 Ensure you have kernel headers and build-essential installed. These can be added to the OpenFrame automatically with:
 
@@ -32,7 +32,7 @@ Or generically:
 
 	sudo apt install linux-headers-`uname -r` build-essential git
 
-###Fetch, Compile, Install###
+### Fetch, Compile, Install ###
 
 	git clone https://github.com/andydvsn/rtl8821cu_wlan.git
 	cd rtl8821cu_wlan
