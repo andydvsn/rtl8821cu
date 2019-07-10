@@ -6,3 +6,4 @@ Module.symvers
 modules.order
 rtl8821cu.mod.c
 .tmp_versions
+.DS_Store
